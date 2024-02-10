@@ -7,8 +7,8 @@ function [] = getAllSpines()
 %   across the timecourse. Boundary boxes whose centroids are > X pixels
 %   apart are considered to be separate spines. Then, two 4D matrices
 %   (spine width x spine height x num days x num spines) are generated
-%   containing the whole population of spines for 1. gaussian averaged
-%   images, 2. superresolution images, and 3. binarized images. 
+%   containing the whole population of spines for 1) gaussian averaged
+%   images, 2) superresolution images, and 3) binarized images. 
 % 
 %   The function then calls the spine detection GUI, which asks you to go
 %   through all spines and approve their classification as "spine" or "no
