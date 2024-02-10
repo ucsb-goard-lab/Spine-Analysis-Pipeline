@@ -98,7 +98,7 @@ for ii = 1:size(spine_data,1) % for all spines
             definput = {'1'};
             answer = inputdlg(prompt,dlgtitle,dims,definput);
             idx2remove  = str2num(cell2mat(answer));
-            spine_fill = cell2mat(spine_data(idx2remove,15));
+            spine_fill = cell2mat(spine_data(idx2remove,14));
             spines_found = imoverlay(spines_found,spine_fill,'k'); % fill spine black
             imshow(spines_found)
             title('All identified spines')
