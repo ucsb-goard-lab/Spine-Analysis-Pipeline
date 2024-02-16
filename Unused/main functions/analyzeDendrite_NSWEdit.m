@@ -173,7 +173,10 @@ for dendriteIdx = 1:dendriteList.NumObjects
             if max_c > length(mean_image)
                 max_c = length(mean_image);
             end
-
+            disp(min_r);
+            disp(min_r+max_r);
+            disp(min_c);
+            disp(min_c+max_c);
             spine_data{count_spines_found,17} = mean_image(min_r:min_r+max_r,min_c:min_c+max_c);
             spine_data{count_spines_found,18} = dendrite(min_r:min_r+max_r,min_c:min_c+max_c);
 
