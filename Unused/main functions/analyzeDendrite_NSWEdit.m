@@ -92,13 +92,14 @@ for dendriteIdx = 1:dendriteList.NumObjects
 
     %% Calculating Length of entire Dendritic Branch in microns
     [sBW, ~] = size(BW);
-    dendriteLen = getDendriteLength(image_skeleton,sBW,micron);
+    obj = getDendriteInfo(image_skeleton);
+    dendriteLen = getDendriteLengthObj(obj,sBW,micron);
 
     %% Endpoints & Branches: find and order branches and endpoints for each spine
 
     [x_end   , y_end]    = find((bwmorph(image_skeleton, 'endpoints'))');
     [x_perim , y_perim]  = find(image_perimeter');
-    [x_branch, y_branch] = getBranchPoints_NSWEdit(image_skeleton,x_end, y_end);
+    [x_branch, y_branch] = getBranchPoints_NSWEditObj(obj,x_end, y_end);
 
     max_geodesic_dist = 500; min_geodesic_dist = 10; %!TODO make these parameters?
 
