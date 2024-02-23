@@ -1,6 +1,6 @@
 function [midpoint_base, x_top, y_top, spine_fill, im, spine_label, stat_spine_head] = getSpineMorphologyData_NSWEdit(i,...
-    x_branch,y_branch, x_end, y_end, x_perim, y_perim, max_geodesic_dist,...
-    min_geodesic_dist, spine_end_points, image_spine_end_points, image_perimeter)
+    obj, max_geodesic_dist,...
+    min_geodesic_dist, spine_end_points, image_spine_end_points)
 % GETSPINEMORPHOLOGYDATA takes the branch points, end points, and perimeter
 % points from a binarized dendrite image as well as the current spine
 % iteration i and returns morphological feature data on that spine
@@ -29,7 +29,13 @@ middle_length, aspect_ratio, & spine_neck,
 stat_spine_head records circularity and eccentrcity
 
 %}
-
+x_branch = obj.x_branch;
+y_branch = obj.y_branch; 
+x_end = obj.x_end;
+y_end = obj.y_end;
+x_perim = obj.x_perim;
+y_perim = obj.y_perim;
+image_perimeter = obj.image_perimeter;
 %get index of branch pt with min distance between every branch point to given end point
 [~, end_ii_branchpoint] = min(sqrt((x_branch - x_end(i)).^2 + (y_branch - y_end(i)).^2));
 
