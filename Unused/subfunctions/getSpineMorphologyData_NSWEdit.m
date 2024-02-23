@@ -32,7 +32,6 @@ stat_spine_head records circularity and eccentrcity
 
 %}
 
-%get index of branch pt with min distance between every branch point to given end point
 x_end = obj.x_end;
 y_end = obj.y_end;
 x_branch = obj.x_branch;
@@ -40,8 +39,9 @@ y_branch = obj.y_branch;
 x_perim = obj.x_perim;
 y_perim = obj.y_perim;
 image_perimeter = obj.image_perimeter;
-[~, end_ii_branchpoint] = min(sqrt((x_branch - x_end(i)).^2 + (y_branch - y_end(i)).^2));
 
+%get index of branch pt with min distance between every branch point to given end point
+[~, end_ii_branchpoint] = min(sqrt((x_branch - x_end(i)).^2 + (y_branch - y_end(i)).^2));
 
 ii_dist = sqrt((x_branch(end_ii_branchpoint) - x_perim).^2 + (y_branch(end_ii_branchpoint) - y_perim).^2);
 
@@ -153,8 +153,8 @@ im.bottom_length = length_sections(3); im.middle_length = length_sections(2);
 im.upper_length  = length_sections(1); im.aspect_ratio  = round(im.spine_length/im.middle_length,1);
 
 % Neck extraction
-interesection    = pixel_intersection(perpendiculars(:,:,2),spine_bones);
-im.spine_neck    = round(sqrt((interesection(1)-midpoint_base(1,1))^2+(interesection(2)-midpoint_base(1,2))^2));
+intersection    = pixel_intersection(perpendiculars(:,:,2),spine_bones);
+im.spine_neck    = round(sqrt((intersection(1)-midpoint_base(1,1))^2+(intersection(2)-midpoint_base(1,2))^2));
 
 % Head extraction
 distance_head  = spine;
