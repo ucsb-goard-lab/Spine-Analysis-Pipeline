@@ -86,20 +86,21 @@ for dendriteIdx = 1:dendriteList.NumObjects
     title('Gaussian filtered binarized image')
 
     %% 4 Skeletonization: Skeletonization of dendrite and trimming of "extra" spines
-    image_skeleton    = bwmorph(BW,'thin',inf);
-    image_perimeter   = bwmorph(BW,'remove');
+    % image_skeleton    = bwmorph(BW,'thin',inf);
+    % image_perimeter   = bwmorph(BW,'remove');
     %figure,imshow(image_skeleton) %uncomment to show image skeleton
 
     %% Calculating Length of entire Dendritic Branch in microns
     [sBW, ~] = size(BW);
-    obj = getDendriteInfo(image_skeleton);
+    obj = getDendriteInfo(BW);
+    image_perimeter = obj.image_perimeter;
     dendriteLen = getDendriteLengthObj(obj,sBW,micron);
 
     %% Endpoints & Branches: find and order branches and endpoints for each spine
 
-    [x_end   , y_end]    = find((bwmorph(image_skeleton, 'endpoints'))');
-    [x_perim , y_perim]  = find(image_perimeter');
-    [x_branch, y_branch] = getBranchPoints_NSWEditObj(obj,x_end, y_end);
+    [x_end   , y_end]    = getEndPoints(obj); %find((bwmorph(image_skeleton, 'endpoints'))');
+    [x_perim , y_perim]  = getPerimeter(obj);
+    [x_branch, y_branch] = getBranchPoints_NSWEdit(obj,x_end, y_end);
 
     max_geodesic_dist = 500; min_geodesic_dist = 10; %!TODO make these parameters?
 
