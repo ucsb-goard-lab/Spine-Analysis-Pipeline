@@ -1,4 +1,4 @@
-classdef getDendriteInfo < handle
+classdef getDendriteInfoClass < handle
     %GETDENDRITEINFO Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -14,7 +14,7 @@ classdef getDendriteInfo < handle
     end
     
     methods
-        function obj = getDendriteInfo(BW)
+        function obj = getDendriteInfoClass(BW)
            %% CONSTRUCTOR: Skeletonization: Skeletonization of dendrite and trimming of "extra" spines
             obj.image_skeleton = bwmorph(BW,'thin',inf);
             obj.image_perimeter = bwmorph(BW,'remove');
