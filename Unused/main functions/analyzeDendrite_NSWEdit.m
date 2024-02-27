@@ -102,10 +102,10 @@ for dendriteIdx = 1:dendriteList.NumObjects
     % [x_perim , y_perim]  = getPerimeter(obj);
     % [x_branch, y_branch] = getBranchPoints_NSWEdit(obj,x_end, y_end);
 
-    max_geodesic_dist = 500; min_geodesic_dist = 10; %!TODO make these parameters?
+    % max_geodesic_dist = 500; min_geodesic_dist = 10; %!TODO make these parameters?
 
-    spine_end_points       = zeros(2, length(denInfo.x_end));
-    image_spine_end_points = zeros(size(BW));
+    % spine_end_points       = zeros(2, length(denInfo.x_end));
+    % image_spine_end_points = zeros(size(BW));
 
     %% Initialize spine characteristics
     num_spines = 0;
@@ -118,14 +118,14 @@ for dendriteIdx = 1:dendriteList.NumObjects
         % [midpoint_base, ~, ~, spine_fill, im, class, ~] = getSpineMorphologyData_NSWEdit(i, ...
             % x_branch,y_branch, x_end, y_end, x_perim, y_perim, max_geodesic_dist,...
             % min_geodesic_dist, spine_end_points, image_spine_end_points, image_perimeter);
-            [midpoint_base, ~, ~, spine_fill, im, class, ~] = getSpineMorphologyData_NSWEdit(i, denInfo, ...
-           max_geodesic_dist, min_geodesic_dist, spine_end_points, image_spine_end_points);
-           % spineClass = getSpineMorphologyClass(i,denInfo,BW);
-           % morphologicalClassification(spineClass);
-           % midpoint_base = spineClass.midpoint_base;
-           % spine_fill = spineClass.spine_fill;
-           % im = spineClass.im;
-           % class = spineClass.spine_label;
+           %  [midpoint_base, ~, ~, spine_fill, im, class, ~] = getSpineMorphologyData_NSWEdit(i, denInfo, ...
+           % max_geodesic_dist, min_geodesic_dist, spine_end_points, image_spine_end_points);
+           spineClass = getSpineMorphologyClass(i,denInfo,BW);
+           morphologicalClassification(spineClass);
+           midpoint_base = spineClass.midpoint_base;
+           spine_fill = spineClass.spine_fill;
+           im = spineClass.im;
+           class = spineClass.spine_label;
            
 %         figure, imshowpair(spine_fill,BW)
 %         title(['Current spine:',' ',class]) % uncomment to display each spine
