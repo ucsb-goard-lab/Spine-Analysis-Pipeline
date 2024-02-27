@@ -92,7 +92,7 @@ for dendriteIdx = 1:dendriteList.NumObjects
 
     %% Calculating Length of entire Dendritic Branch in microns
     % [sBW, ~] = size(BW);
-    denInfo = getDendriteInfo(BW);
+    denInfo = getDendriteInfoClass(BW);
     % image_perimeter = obj.image_perimeter;
     % dendriteLen = getDendriteLengthObj(obj,sBW,micron);
 
