@@ -98,7 +98,7 @@ fname = (strcat(erase(image_name,'.mat'),'.png'));
 ind=find(ismember(BW_images(1,:),fname), 1);
 %%
 if isempty(ind) %if it hasn't then binarize it
-    img_filt = getFilteredImages();
+    img_filt = getFilteredImagesClass();
     superResolution(img_filt, mean_image, show_image_steps)
     II = img_filt.II;
     binarize(img_filt, [], show_image_steps)
