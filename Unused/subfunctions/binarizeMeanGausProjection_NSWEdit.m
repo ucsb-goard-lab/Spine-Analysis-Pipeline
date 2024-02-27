@@ -99,9 +99,9 @@ ind=find(ismember(BW_images(1,:),fname), 1);
 %%
 if isempty(ind) %if it hasn't then binarize it
     img_filt = getFilteredImagesClass();
-    superResolution(img_filt, mean_image, show_image_steps)
+    superResolution(img_filt, mean_image, show_image_steps);
     II = img_filt.II;
-    binarize(img_filt, [], show_image_steps)
+    binarize(img_filt, [], show_image_steps);
     BW = img_filt.BW;
     % %mean_image = mat2gray(mean_image); %normalizes grayscale to a range of [0, 1]
     % mean_image = mat2gray(mean_image);
