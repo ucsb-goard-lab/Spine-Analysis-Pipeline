@@ -98,76 +98,83 @@ fname = (strcat(erase(image_name,'.mat'),'.png'));
 ind=find(ismember(BW_images(1,:),fname), 1);
 %%
 if isempty(ind) %if it hasn't then binarize it
-
-    %mean_image = mat2gray(mean_image); %normalizes grayscale to a range of [0, 1]
-    mean_image = mat2gray(mean_image);
-    
-    diameter   = [12 12];
-    parameter  = [6 -6];
-
-    % from superResolution function:
-    meanImageFiltered = medfilt2(mean_image,(diameter)*4+1);
-    % [counts,~]        = imhist(meanImageFiltered);
-    % threshold         = otsuthresh(counts)*0.9;
-    % I                 = imbinarize(meanImageFiltered,threshold);
+    img_filt = getFilteredImages();
+    superResolution(img_filt, mean_image, show_image_steps)
+    II = img_filt.II;
+    binarize(img_filt, [], show_image_steps)
+    BW = img_filt.BW;
+    % %mean_image = mat2gray(mean_image); %normalizes grayscale to a range of [0, 1]
+    % mean_image = mat2gray(mean_image);
+    % 
+    % diameter   = [12 12];
+    % parameter  = [6 -6];
+    % 
+    % % from superResolution function:
+    % meanImageFiltered = medfilt2(mean_image,(diameter)*4+1);
+    % % [counts,~]        = imhist(meanImageFiltered);
+    % % threshold         = otsuthresh(counts)*0.9;
+    % % I                 = imbinarize(meanImageFiltered,threshold);
+    % % value        = 10;
+    % % I(1:value,:) = 0; I(end-value:end,:) = 0; % top  & bottom part
+    % % I(:,1:value) = 0; I(:,end-value:end) = 0; % left & right  part
+    % %
+    % % se = strel('disk',35);
+    % % BW = imbinarize(imgaussfilt(double(I),3),0.55);
+    % %montage({im,mean_image,I,BW})
+    % 
+    % %%
+    % %remove noise with 2d median filter
+    % meanImageSub        = mean_image - meanImageFiltered;
+    % meanImageFiltered_2 = medfilt2(abs(meanImageSub),(diameter)*4+1); %empty?
+    % 
+    % meanImageDiv   = meanImageSub ./ (1e-10 + meanImageFiltered_2); %r
+    % meanImageDiv_2 = meanImageSub ./ (1e+10 + meanImageFiltered_2);%empty?
+    % 
+    % meanImageEnh = (meanImageDiv - parameter(2)) / (parameter(1) - parameter(2)); %r
+    % meanImageEnh = max(0,min(1,meanImageEnh)); %r
+    % 
+    % meanImageEnh_2 = (meanImageDiv_2 - parameter(2)) / (parameter(1) - parameter(2));
+    % meanImageEnh_2 = mat2gray(max(0,min(1,meanImageEnh_2)));
+    % 
+    % meanImageEnh_2 = imadjust(meanImageEnh_2);
+    % meanImageEnh_2 = medfilt2(meanImageEnh_2,[6 6]);
+    % 
+    % II = meanImageEnh + meanImageEnh_2; %r
+    % 
+    % % from dendriticSpineImg Pro :
+    % %imhist(I)
+    % [counts,~] = imhist(II);
+    % threshold    = otsuthresh(counts);
+    % 
+    % % UPDATED: Automatic Threshold Selection from Histogram of image
+    % % inspired by:
+    % % https://onlinelibrary.wiley.com/doi/full/10.1002/cyto.a.20431
+    % 
+    % I            = imbinarize(II,threshold);
     % value        = 10;
     % I(1:value,:) = 0; I(end-value:end,:) = 0; % top  & bottom part
     % I(:,1:value) = 0; I(:,end-value:end) = 0; % left & right  part
-    %
+    % se1          = strel('disk',3);
+    % I            = imopen(I,se1);
+    % 
     % se = strel('disk',35);
-    % BW = imbinarize(imgaussfilt(double(I),3),0.55);
-    %montage({im,mean_image,I,BW})
-
-    %%
-    %remove noise with 2d median filter
-    meanImageSub        = mean_image - meanImageFiltered;
-    meanImageFiltered_2 = medfilt2(abs(meanImageSub),(diameter)*4+1); %empty?
-
-    meanImageDiv   = meanImageSub ./ (1e-10 + meanImageFiltered_2); %r
-    meanImageDiv_2 = meanImageSub ./ (1e+10 + meanImageFiltered_2);%empty?
-
-    meanImageEnh = (meanImageDiv - parameter(2)) / (parameter(1) - parameter(2)); %r
-    meanImageEnh = max(0,min(1,meanImageEnh)); %r
-
-    meanImageEnh_2 = (meanImageDiv_2 - parameter(2)) / (parameter(1) - parameter(2));
-    meanImageEnh_2 = mat2gray(max(0,min(1,meanImageEnh_2)));
-
-    meanImageEnh_2 = imadjust(meanImageEnh_2);
-    meanImageEnh_2 = medfilt2(meanImageEnh_2,[6 6]);
-
-    II = meanImageEnh + meanImageEnh_2; %r
-
-    % from dendriticSpineImg Pro :
-    %imhist(I)
-    [counts,~] = imhist(II);
-    threshold    = otsuthresh(counts);
-
-    % UPDATED: Automatic Threshold Selection from Histogram of image
-    % inspired by:
-    % https://onlinelibrary.wiley.com/doi/full/10.1002/cyto.a.20431
-
-    I            = imbinarize(II,threshold);
-    value        = 10;
-    I(1:value,:) = 0; I(end-value:end,:) = 0; % top  & bottom part
-    I(:,1:value) = 0; I(:,end-value:end) = 0; % left & right  part
-    se1          = strel('disk',3);
-    I            = imopen(I,se1);
-
-    se = strel('disk',35);
-    BW = (imbinarize(imdilate((imbinarize(double(meanImageSub), 0.15)),se).*I));
-    BW = imbinarize(imgaussfilt(double(BW),3),0.55);
-    perimeter = sum(sum(bwperim(BW)));
-
-    if show_image_steps == 1
-        figure
-        montage({mean_image,meanImageFiltered,meanImageSub,meanImageFiltered_2,meanImageDiv,I,meanImageEnh,meanImageDiv_2,meanImageEnh_2,BW});
-    end
+    % BW = (imbinarize(imdilate((imbinarize(double(meanImageSub), 0.15)),se).*I));
+    % BW = imbinarize(imgaussfilt(double(BW),3),0.55);
+    % perimeter = sum(sum(bwperim(BW)));
+    % 
+    % if show_image_steps == 1
+    %     figure
+    %     montage({mean_image,meanImageFiltered,meanImageSub,meanImageFiltered_2,meanImageDiv,I,meanImageEnh,meanImageDiv_2,meanImageEnh_2,BW});
+    % end
 
 
     if skip_manual_binarization == 0
         % Show the image
 
         answer = ' ';
+
+        meanImageEnh_2 = img_filt.meanImageEnhance;
+        threshold = img_filt.thresh;
 
         while ~strcmp(answer,'No Change Needed')
             imshowpair(meanImageEnh_2,BW)
@@ -196,15 +203,17 @@ if isempty(ind) %if it hasn't then binarize it
 
                 % Binarize the image according to the user selected threshold
                 userSelectedThreshold = str2double(answerT{1});
-                BW = imbinarize(II,userSelectedThreshold);
-                value = 10;
-                BW(1:value,:) = 0; BW(end-value:end,:) = 0; % top  & bottom part
-                BW(:,1:value) = 0; BW(:,end-value:end) = 0; % left & right  part
-                se1 = strel('disk',3);
-                BW = imopen(BW,se1);
-                se = strel('disk',35);
-                BW = (imbinarize(imdilate((imbinarize(double(meanImageSub), 0.15)),se).*BW));
-                BW = imbinarize(imgaussfilt(double(BW),3),0.55);
+                binarize(img_filt,userSelectedThreshold, 0);
+                BW = img_filt.BW;
+                % BW = imbinarize(II,userSelectedThreshold);
+                % value = 10;
+                % BW(1:value,:) = 0; BW(end-value:end,:) = 0; % top  & bottom part
+                % BW(:,1:value) = 0; BW(:,end-value:end) = 0; % left & right  part
+                % se1 = strel('disk',3);
+                % BW = imopen(BW,se1);
+                % se = strel('disk',35);
+                % BW = (imbinarize(imdilate((imbinarize(double(meanImageSub), 0.15)),se).*BW));
+                % BW = imbinarize(imgaussfilt(double(BW),3),0.55);
 
                 continue;
             end
