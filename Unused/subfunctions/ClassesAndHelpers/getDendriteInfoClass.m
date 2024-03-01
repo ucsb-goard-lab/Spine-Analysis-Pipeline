@@ -1,6 +1,6 @@
 classdef getDendriteInfoClass < handle
-    %GETDENDRITEINFO Summary of this class goes here
-    %   Detailed explanation goes here
+    %GETDENDRITEINFO methods to obtain features of dendrite spines,
+    %including branch points, end points, and perimeter
     
     properties (Access = public)
         image_skeleton;
@@ -23,59 +23,6 @@ classdef getDendriteInfoClass < handle
             obj.getBranchPoints();
             %figure,imshow(image_skeleton) %uncomment to show image skeleton
         end
-
-        % function dendriteLen = getDendriteLengthObj(obj,sBW,micrometers)
-        %     % Written by Marie Karpinska
-        %     % April 15, 2022
-        %     % input image Skeleton of Dendritic Branch and the size of BW (the image of
-        %     % the branch) 
-        % 
-        %     % Configuring image skeleton and main branch of dendrite
-        %     mainBranch = bwmorph(obj.image_skeleton,'bridge',inf);
-        %     mainBranch = bwmorph(mainBranch,'spur',9);
-        %     mainBranch = bwmorph(mainBranch,'hbreak');
-        %     mainBranch = bwmorph(mainBranch,'thin');
-        %     mainBranch = bwmorph(mainBranch,'spur',50);
-        %     %imshowpair(imageSkeleton, mainBranch)
-        % 
-        %     % Extending main branch to get spines at the end
-        %     addBack = obj.image_skeleton - mainBranch;
-        %     addBack = bwmorph(addBack,'thicken',1);
-        %     addBack = bwmorph(addBack,'diag',inf);
-        %     addBack = bwconncomp(addBack,4);
-        %     addBackVec = zeros(1,addBack.NumObjects); %initialize vector of size numObjects in addBack
-        %     for i = 1:addBack.NumObjects
-        %         addBackVec(i) = length(addBack.PixelIdxList{i});  %put areas of connected objects into a vector
-        %     end
-        % 
-        %     [~,idx1] = max((addBackVec),[],'linear');
-        %     addBackVec(idx1)= 0;
-        %     [~,idx2] = max(addBackVec,[], 'linear');
-        % 
-        %     %If you get an error that says idx1 needs at least one valid index, then
-        %     %your binarization has failed. Check your BW image.
-        %     one = false(sBW);
-        %     one(addBack.PixelIdxList{idx1}) = true;
-        %     one =  bwmorph(one,'thin',inf);
-        % 
-        %     two = false(sBW);
-        %     two(addBack.PixelIdxList{idx2}) = true;
-        % 
-        %     two =  bwmorph(two,'thin',inf);
-        %     mainBranch = one + mainBranch;
-        %     mainBranch = two + mainBranch;
-        % 
-        %     mainBranch =  bwmorph(mainBranch,'diag');
-        %     mainBranch =  bwmorph(mainBranch,'bridge');
-        %     mainBranch =  bwmorph(mainBranch,'thin');
-        %     mainBranch =  bwmorph(mainBranch,'spur',15);
-        % 
-        %     dendriteLen = bwarea(mainBranch);
-        % 
-        % 
-        %     pixels_per_micro = sBW / micrometers;
-        %     dendriteLen = dendriteLen / pixels_per_micro; %converting dendriteLen from pixels to micrometers
-        % end
 
         function getBranchPoints(obj)
             % GETBRANCHPOINTS takes in branchpoints taken from a skeleton with

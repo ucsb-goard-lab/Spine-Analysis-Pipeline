@@ -1,6 +1,13 @@
 classdef getFilteredImagesClass < handle
-    %GETFILTEREDIMAGES Summary of this class goes here
-    %   Detailed explanation goes here
+    %GETFILTEREDIMAGES get binarized and superresolution images
+    % Function binarizes mean Gaussian Projection converted from tif files of
+    % microscopy images and resizes them to be consistent sizing if necessary
+    
+    % Function includes code lines 4-28 from SuperResolution Function by WTR
+    % Function also uses part of procedure of "An open-source tool for analysis
+    % and automatic identification of dendritic spines using machine learning"
+    % by Smirnov and colleagues published in 2018.
+    % Also uses helper function natsortfiles published on mathworks by Stephen23
     
     properties
         BW;

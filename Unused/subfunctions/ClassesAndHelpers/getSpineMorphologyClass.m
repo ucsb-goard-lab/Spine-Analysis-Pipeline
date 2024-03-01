@@ -1,6 +1,32 @@
 classdef getSpineMorphologyClass < handle
-    %GETSPINEMORPHOLOGYCLASS Summary of this class goes here
-    %   Detailed explanation goes here
+    % GETSPINEMORPHOLOGYDATA takes the branch points, end points, and perimeter
+    % points from a binarized dendrite image as well as the current spine
+    % iteration i and returns morphological feature data on that spine
+    
+    %{
+    Input of function:
+    i = current spine out of all spines on the given dendrite
+    x_branch, y_branch = x & y coordinates of branch points (where the spine 
+    branches off of main dendrite branch)
+    x_end, y_end = x & y coordinates of endpoints (where spines stop protruding)
+    x_perim, y_perim = x & y coordinates of the dendrite branch perimeter
+    max_geodesic_dist, min_geodesic_dist = geodesic distance range for two
+    points to belong to the same spine
+    spine_end_points = initially an empty table of endpoints
+    image_spine_end_points = marks the end points on the image
+    
+    Output of morphologicalClassification functio:
+    midpoint_base = coordinates of the middle of the base of the spine
+    x_top, y_top = coordinates where the spine ends
+    spine_fill = just the spine in the binarized dendrite image
+    im, stat_spine_head = statistics of the spine
+    
+    im is a struct with spine_length , bottom_length , upper_length , 
+    middle_length, aspect_ratio, & spine_neck, 
+    
+    stat_spine_head records circularity and eccentrcity
+        
+    %}
     
     properties(Access = public)
         i;
