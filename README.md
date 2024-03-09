@@ -76,7 +76,7 @@ Estrous cycle classifications saved as a cell array of strings can be preloaded 
 3. Time Series Analysis or Cross Sectional Analysis. Follow Prompts
 
 ### Time Series Analysis Features
-#### Option:
+#### Options
 * If user would like to see images as they are processed, change show_image_steps to 1 (boxed in red in image below)
 <br> (main functions/getAllSpines.m, Lines 46-47) </br>
 ![drawing](https://docs.google.com/drawings/d/17j3hRAn6GlAhZiVCwBNxfo2EApU8rkuzxetJw54Rlg4/export/png)
