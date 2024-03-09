@@ -92,10 +92,10 @@ Estrous cycle classifications saved as a cell array of strings can be preloaded 
 #### Manual Spine Classification Approval
 1. Will be shown a diagram of the spines and color coded based on the type of spine (determined by program)
 <br>Legend</br>
-      * magenta -
-      * cyan -
-      * yellow -
-      * green -
+      * magenta - stubby
+      * cyan - thin
+      * yellow - mushroom
+      * green - filopodia
 2. Option to add or remove spines:
    * Add:
      <br> 1. select spine region and make sure first and final point for ROI connects  </br> 
@@ -109,7 +109,7 @@ Estrous cycle classifications saved as a cell array of strings can be preloaded 
 #### SpineDetectionGUI
 GUI for selecting spines the program could not determine
     GUI Structure:
-
+<br>![drawing](https://docs.google.com/drawings/d/1o0OSf1Kc4vRM7I8bdtr34yE2cf0N_oBoMo3K8hjxRKs/export/png)</br>
 1. Look through all spines for all dendrites and determine if it is a spine or not a spine
 2. If you wish to change some information, select the Edit Button
 3. Select the Rec #
