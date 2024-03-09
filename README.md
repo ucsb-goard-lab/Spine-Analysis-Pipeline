@@ -7,7 +7,7 @@ Originally, created in part for analysis of dendritic spine turnover due to estr
 
 ## Features
 
-### Time Series Analysis:
+### Time Series Analysis
 Runs getAllSpines (and subsequent functions) to determine the total population of spines to calculate turnover dynamics. Gaussian averaged images, binarized images, and super resolution images of the data are first produced. Manual selection of the threshold and editing of dendrites in each image is allowed. Then spine detection occurs. Spines are separated based on boundary boxes with centroids > 25 pixels (~1.7 microns) apart. Two 4D matrices (spine width x spine height x num days x num spines) are generated for each spine. Additionally, after spines are individually registered, classification based on morphological factors occurs. The four spine types are stubby, thin, mushroom, or filopodium. Users can edit the spines detected. Another GUI runs to allow selection of the spines the program could not ascertain as a spine (outliers), allowing for manual selection and classification.
 
 ### Cross Sectional Analysis
@@ -18,7 +18,7 @@ Images have been previously gaussian averaged across 4 imaging planes, typically
 
 Estrous cycle classifications saved as a cell array of strings can be preloaded if the user indicates that they would like to analyze spine dynamics as a function of the estrous cycle stage. Please refer to EstrousNet (https://github.com/ucsb-goard-lab/EstrousNet) for more information on how to reliably classify estrous stages from vaginal cytology images.
 
-## Folder Structure:
+## Folder Structure
 
 <details>
   <summary>View Structure</summary>
