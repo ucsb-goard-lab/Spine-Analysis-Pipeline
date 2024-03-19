@@ -112,14 +112,23 @@ if strcmp(plot_flag,'Yes')
     ylabel('# spines per 10 um','fontsize',12)
 
     ax2 = axes('Parent',f,'Units','normalized','Position',[.55 .5 .4 .3]);
-    bar(spine_types','Parent',ax2)
-    xticklabels(xlabels)
-    colors = {'#071952','#088395','#40F8FF','#F2F7A1'};
-    colororder(colors)
+    b = bar(spine_types','Parent',ax2); 
+    if size(spine_types,2) == 1 % format differently for single image
+        xticklabels({'stubby','thin','mushroom','filopodium'})
+        b.FaceColor = 'flat';
+        b.CData(1,:) = [0.03,0.01,0.32];
+        b.CData(2,:) = [0.03,0.51,0.58];
+        b.CData(3,:) = [0.25,0.97,1];
+        b.CData(4,:) = [0.95,0.97,0.63];
+    else
+        xticklabels(xlabels)
+        colors = {'#071952','#088395','#40F8FF','#F2F7A1'};
+        colororder(colors)
+        legend({'stubby','thin','mushroom','filopodium'},'Position',[0.88 0.78 0.1 0.07])
+    end
     title('Spine type proportion','fontsize',15)
     ylabel('% spine type','fontsize',12)
-    legend({'stubby','thin','mushroom','filopodium'},'Position',[0.88 0.78 0.1 0.07])
-    
+
     ax3 = axes('Parent',f,'Units','normalized','Position',[.55 .1 .17 .3]);
     violinplot(spine_lengths,xlabels);
     ylabel('spine length (pixels)','fontsize',12)
