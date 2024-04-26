@@ -2,8 +2,8 @@
 
 ## Spine-Analysis-Pipeline
 
-Pipeline for morphological classification of dendrite spines.
-Originally, created in part for analysis of dendritic spine turnover due to estrous cycle changes, this pipeline is applicable for spine data exploration regarding both cross sectional and time series analysis. 
+Pipeline for morphological classification of dendrite spines.  
+Originally, created in part for analysis of dendritic spine turnover due to estrous cycle changes, this pipeline is modular for both cross sectional and time series analysis, and includes the option to account for estrous cycle stage.
 
 ## Features
 
@@ -67,19 +67,21 @@ Estrous cycle classifications saved as a cell array of strings can be preloaded 
 4. Direct to data folder in MatLab Current Folder
 5. (If not done so) Create Cycle data as a cell array of strings
 6. Make sure all functions in the program have not been renamed
+7. Install Matlab Packages: _Image Processing Toolbox, Statistics and Machine Learning Toolbox, Computer Vision Toolbox_
 
 ## Usage & Important Notes
-1. While open on Editor, run masterSpineAnalysis.m
-2. If prompted, select add to path
+1. Move current working directory to directory contain all the average projections from dendritic images
+2. While open on Editor, run masterSpineAnalysis.m
+3. If prompted, select add to path
     1. DO NOT CHANGE FROM CURRENT FOLDER
     2. May add Spine Analysis Package and all subfolders to Matlab path permanently
-3. Time Series Analysis or Cross Sectional Analysis. Follow Prompts
+4. Time Series Analysis or Cross Sectional Analysis. Follow Prompts
 
 ### Time Series Analysis Features
 #### Options
-* If user would like to see images as they are processed, change show_image_steps to 1 (boxed in red in image below)
-<br> (main functions/getAllSpines.m, Lines 46-47) </br>
-![drawing](https://docs.google.com/drawings/d/17j3hRAn6GlAhZiVCwBNxfo2EApU8rkuzxetJw54Rlg4/export/png)
+* If the user would like to see images as they are processed, set the input 
+              _show_image_steps_ of _analyzeDendrite_NSWEdit_ to true.
+<br> main functions/getAllSpines.m, Lines 46-47 </br>
 
 
 
@@ -107,25 +109,32 @@ Estrous cycle classifications saved as a cell array of strings can be preloaded 
    * Neither: Saves all changes and continues analysis
 
 #### SpineDetectionGUI
-GUI for selecting spines the program could not determine
+GUI for selecting spines the program could not determine  
     GUI Structure:
 <br>![drawing](https://docs.google.com/drawings/d/1o0OSf1Kc4vRM7I8bdtr34yE2cf0N_oBoMo3K8hjxRKs/export/png)</br>
-1. Look through all spines for all dendrites and determine if it is a spine or not a spine
-2. If you wish to change some information, select the Edit Button
-3. Select the Rec #
-4. Choose whether it should be classified as a spine or not
-    * Spine: Type in “Spine”
-    * No Spine: Type in “No Spine” (no “”)
-   <br>Note: Canceling a change will cause the window to minimize. You can continue the addition and subtraction, just reopen the window.</br>
+1. Look through all spines for all dendrites and determine if detection was accurate
+   * Horizontal scroll to see other spines
+3. If you wish to change some information, select the Edit Button
+4. Select the Rec #
+5. Choose whether it should be classified as a spine or not
     * Confirm Selection
-5. Accept Changes
+6. Accept Changes
 
 ## References
 
-Program was written by Nora S. Wolcott and Marie Karpinska. The reference paper is:
-    _[Long-term transverse imaging of the hippocampus with glass microperiscopes](https://elifesciences.org/articles/75391)._
-<br>The helper function, natSortfiles, published on mathworks by Stephen Cobeldick (2021) and uses Bastian Bechtold’s (2016) violin plot algorithm. For more information: J.L. Hintze and R.D. Nelson. “Violin plots: a box plot-density trace synergism.” The American Statistician, vol. 52, no. 2, pp. 181-184, 1998.Spine Morphology Classification utilizes George Cubas (2003) linept.m algorithm.</br>
-<br>The binarizing algorithm utilizes code from:</br>
-  * SuperResolution functions written by William T. Redman.
-    * Uses part of a procedure from Smirnov MS., et. al., (2018). An open-source tool for analysis and automatic identification of dendritic spines using machine learning. PLOS ONE 13(7): e0199589. [https://doi.org/10.1371/journal.pone.0199589.](https://doi.org/10.1371/journal.pone.0199589)
-  * Automatic Threshold Selection from Histogram of Image, inspired by https://onlinelibrary.wiley.com/doi/full/10.1002/cyto.a.20431
+Program was written by Nora S. Wolcott, Marie Karpinska, William T. Redman, Luca Montelisciani, and Mounami Reddy Kayitha. The reference paper is:  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redman, W.T., Wolcott, N.S., Montelisciani, L., Luna, G., Marks, T.D., Sit, K.K., Yu, C., Smith, S., Goard, M.J. Long-term transverse &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imaging of the hippocampus with glass microperiscopes eLife 11:e75391 (2022).
+
+The binarizing algorithm utilizes code from:
+  * SuperResolution functions written by William T. Redman.   
+  * Part of a procedure from Smirnov MS., et. al. An open-source tool for analysis and automatic identification of dendritic spines using machine learning. PLOS ONE 13, e0199589 (2018). 
+  
+
+Automatic Threshold Selection from Histogram of Image, inspired by Bai, W., Zhou, X., Ji, L., Cheng, J. and Wong, S.T.C., Automatic dendritic spine analysis in two-photon laser scanning microscopy images. Cytometry, 71A: 818-826 (2007).  
+
+**Helper functions:**
+Cobeldick S (2021) natSortfiles for Matlab, version 3.4.1.  
+
+Uses Bechtold B (2016) Violin Plots for Matlab, version 1.7.0.0. For more information: Hintze, J.L. & Nelson, R.D. Violin plots: a box plot-density trace synergism. The American Statistician 2, 181-184 (1998).  
+
+Spine Morphology Classification utilizes Georges C. (2003) linept (renamed to “connecting two pixels”) for Matlab, version 1.0.0.0.  
