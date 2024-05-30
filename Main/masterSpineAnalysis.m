@@ -1,6 +1,6 @@
 %% Master Spine Analysis 
 % Determines whether you want to get raw numbers of spines or analyze spine
-% turnover over a timecourseand and calls the relevant functions
+% turnover over a timecourse and calls the relevant functions
 
 filepath = matlab.desktop.editor.getActiveFilename;
 addpath(genpath(filepath(1:end-21))) % add all functions to path
