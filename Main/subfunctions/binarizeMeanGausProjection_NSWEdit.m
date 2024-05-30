@@ -152,8 +152,6 @@ if isempty(ind) %if it hasn't then binarize it
                     if or(strcmp(answer2, 'Add Objects'), strcmp(answer2, 'Remove Objects'))
                         % Draw polygon and create mask
                         imshowpair(meanImageEnh_2,BW)
-                        % roi = msgbox('Please draw a polygon by selecting points that eventually connect together to select the parts of the image you wish to add or remove from the binarized image.','Instructions');
-                        % waitfor(roi)
                         roi = drawpolygon();
                         mask = createMask(roi);
 
