@@ -24,24 +24,12 @@ for ii = 1:size(spine_data,1) % for all spines
     % Handle response
     switch answer
         case 'Add spine'
-            % roi = msgbox("Please draw a polygon containing the spine of interest." + ...
-            %     "This spine will be added and classified based on morphology.");
-            % waitfor(roi)
             roi = drawpolygon();
             mask = createMask(roi);  
             % get spine attributes
             count_spines_found = count_spines_found+1;
             spine_fill = BW;
             spine_fill(~mask) = false; % isolate spine in image
-
-            % Morpohological Classification
-            % prompt = {'Enter the most plausible spine classification (i.e. stubby, mushroom, thin, or filopodium:)'};
-            % dlgtitle = 'Input';
-            % dims = [1 35];
-            % definput = {'1'};
-            % answer = inputdlg(prompt,dlgtitle,dims,definput);
-            % app = getSpineClass();
-            % [answer]=app.getManualClass(); % not working
 
             list = {'stubby','thin','mushroom','filopodium'};
             [idx,~] = listdlg('ListString',list);

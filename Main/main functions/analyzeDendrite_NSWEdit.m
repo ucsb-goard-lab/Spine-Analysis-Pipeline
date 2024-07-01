@@ -70,11 +70,6 @@ color_bank = ['m';'c';'g';'y'];
 class_bank = {'stubby','thin','filopodium','mushroom'};
 
 for dendriteIdx = 1:dendriteList.NumObjects
-    %      if length(dendriteList.PixelIdxList{dendriteIdx}) > maxLen
-    %          maxLen = length(dendriteList.PixelIdxList{dendriteIdx});
-    %          maxIdx = dendriteIdx;
-    %      end
-
     BW = false(size(dendrite));
     BW(dendriteList.PixelIdxList{dendriteIdx}) = true;
     BW = imbinarize(imgaussfilt(double(BW),3),0.35); %imgaussfilt,medfilt2
@@ -86,26 +81,9 @@ for dendriteIdx = 1:dendriteList.NumObjects
     title('Gaussian filtered binarized image')
 
     %% 4 Skeletonization: Skeletonization of dendrite and trimming of "extra" spines
-    % image_skeleton    = bwmorph(BW,'thin',inf);
-    % image_perimeter   = bwmorph(BW,'remove');
-    %figure,imshow(image_skeleton) %uncomment to show image skeleton
 
     %% Calculating Length of entire Dendritic Branch in microns
-    % [sBW, ~] = size(BW);
     denInfo = getDendriteInfoClass(BW);
-    % image_perimeter = obj.image_perimeter;
-    % dendriteLen = getDendriteLengthObj(obj,sBW,micron);
-
-    %% Endpoints & Branches: find and order branches and endpoints for each spine
-
-    % [x_end   , y_end]    = getEndPoints(obj); %find((bwmorph(image_skeleton, 'endpoints'))');
-    % [x_perim , y_perim]  = getPerimeter(obj);
-    % [x_branch, y_branch] = getBranchPoints_NSWEdit(obj,x_end, y_end);
-
-    % max_geodesic_dist = 500; min_geodesic_dist = 10; %!TODO make these parameters?
-
-    % spine_end_points       = zeros(2, length(denInfo.x_end));
-    % image_spine_end_points = zeros(size(BW));
 
     %% Initialize spine characteristics
     num_spines = 0;
@@ -115,11 +93,6 @@ for dendriteIdx = 1:dendriteList.NumObjects
     %% 6 Spine identification & Classification 
     % identify and classify each spine based on standard criteria (morphological approach)
     for i = 1:(length(denInfo.x_end)) 
-        % [midpoint_base, ~, ~, spine_fill, im, class, ~] = getSpineMorphologyData_NSWEdit(i, ...
-            % x_branch,y_branch, x_end, y_end, x_perim, y_perim, max_geodesic_dist,...
-            % min_geodesic_dist, spine_end_points, image_spine_end_points, image_perimeter);
-           %  [midpoint_base, ~, ~, spine_fill, im, class, ~] = getSpineMorphologyData_NSWEdit(i, denInfo, ...
-           % max_geodesic_dist, min_geodesic_dist, spine_end_points, image_spine_end_points);
            spineClass = getSpineMorphologyClass(i,denInfo,BW);
            morphologicalClassification(spineClass);
            midpoint_base = spineClass.midpoint_base;

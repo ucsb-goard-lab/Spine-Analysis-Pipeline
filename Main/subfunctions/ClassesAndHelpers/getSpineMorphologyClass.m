@@ -60,7 +60,7 @@ classdef getSpineMorphologyClass < handle
     methods
         function obj = getSpineMorphologyClass(i1, denInfo, BW)
             %GETSPINEMORPHOLOGYCLASS Construct an instance of this class
-            %   Detailed explanation goes here
+            %   stores parameters and measurements of dendrites
             obj.i = i1;
             obj.x_end = denInfo.x_end;
             obj.y_end = denInfo.y_end;
@@ -74,8 +74,6 @@ classdef getSpineMorphologyClass < handle
         end
         
         function obj = minDistance(obj)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
             [~, end_ii_branchpoint] = min(sqrt((obj.x_branch - obj.x_end(obj.i)).^2 + (obj.y_branch - obj.y_end(obj.i)).^2));
 
             ii_dist = sqrt((obj.x_branch(end_ii_branchpoint) - obj.x_perim).^2 + (obj.y_branch(end_ii_branchpoint) - obj.y_perim).^2);
@@ -237,7 +235,7 @@ classdef getSpineMorphologyClass < handle
                     end
                 else
                     if obj.stat_spine_head.Circularity > 0.7 || obj.im.aspect_ratio > 2.5 
-                        % verstion R2018a or earlier: (4*stat_spine_head.Area*pi)/(stat_spine_head.Perimeter^2) > 0.7
+                        % version R2018a or earlier: (4*stat_spine_head.Area*pi)/(stat_spine_head.Perimeter^2) > 0.7
                         %mushroom(count) = i;
                         obj.spine_label = 'mushroom';
                     else
