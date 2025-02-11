@@ -15,7 +15,7 @@ classdef getSpineMorphologyClass < handle
     spine_end_points = initially an empty table of endpoints
     image_spine_end_points = marks the end points on the image
     
-    Output of morphologicalClassification functio:
+    Output of morphologicalClassification function:
     midpoint_base = coordinates of the middle of the base of the spine
     x_top, y_top = coordinates where the spine ends
     spine_fill = just the spine in the binarized dendrite image
@@ -242,12 +242,9 @@ classdef getSpineMorphologyClass < handle
                         if obj.im.spine_length*0.0193 < 0.5
                             %thin(count) = i; % thin
                             obj.spine_label = 'thin';
-                        elseif  obj.im.spine_length*0.0193 > 0.3 && obj.im.spine_length*0.0193 < 3.0
+                        else  obj.im.spine_length*0.0193 > 0.3 && obj.im.spine_length*0.0193 < 3.0
                             %filopodium(count) = i;
                             obj.spine_label = 'filopodium';
-                        else
-                            %not_spine(count) = i;
-                            obj.spine_label = 'not spine';
                         end
                     end
                 end

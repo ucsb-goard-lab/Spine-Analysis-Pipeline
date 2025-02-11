@@ -19,7 +19,7 @@ if nargin < 4 || isempty(binarized_save_location)
     binarized_save_location = 'E:\GFP Spine Imaging\Chronic imaging\E_TRIAL_1\Binarized Images'; % set manually
 end
 if nargin < 5 || isempty (micron)
-    micron = 51.8; % for 16X
+    micron = 51.8; % for 16X on the two-photon
 end
 if nargin < 6 || isempty(num_pixels)
     num_pixels = 760;
@@ -92,6 +92,7 @@ for dendriteIdx = 1:dendriteList.NumObjects
 
     %% 6 Spine identification & Classification 
     % identify and classify each spine based on standard criteria (morphological approach)
+    % also segments out single spine images (option to save later on)
     for i = 1:(length(denInfo.x_end)) 
            spineClass = getSpineMorphologyClass(i,denInfo,BW);
            morphologicalClassification(spineClass);
