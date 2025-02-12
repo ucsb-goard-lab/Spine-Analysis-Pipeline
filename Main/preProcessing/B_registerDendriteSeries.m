@@ -52,7 +52,7 @@ else
 end
 
 for i = 1:length(ims)-1
-    disp(['Registering Image',' ',num2str(i)]) % display current image
+    disp(['Registering Image',' ',num2str(idx_vec(i)),'...']) % display current image
     moving_idx = idx_vec(i); % index without the fixed image
     if ~fixed_flag % if sampling consecutively
         fixed_idx = moving_idx - 1; 
