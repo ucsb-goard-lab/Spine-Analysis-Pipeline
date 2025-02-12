@@ -51,6 +51,13 @@ else
     idx_vec = 2:length(ims); % assume fixed is first
 end
 
+% Save first image to new directory
+first_name = ims(1).name;
+first_im = imread(first_name);
+new_first_name = strcat(png_path,'\',newdir_name,'\',first_name(1:end-4),'_',newdir_name,'.png');
+imwrite(first_im,new_first_name) % save first image to new directory
+
+% Register
 for i = 1:length(ims)-1
     disp(['Registering Image',' ',num2str(idx_vec(i)),'...']) % display current image
     moving_idx = idx_vec(i); % index without the fixed image
