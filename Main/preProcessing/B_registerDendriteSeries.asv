@@ -43,7 +43,7 @@ if fixed_flag
     % montage(imagestack)
     % prompt = "Which recording would you like to register to? ";
     % fixed_idx = input(prompt);
-    fixed_idx = 1; % uncomment previous to let the user choose which image to register to
+    fixed_idx = 1; % uncomment previous to let the user choose which image to register 
     idx_vec = 1:length(ims); % get indices of non-fixed images
     idx_vec(fixed_idx) = []; % remove fixed image index
 else
@@ -52,7 +52,6 @@ else
 end
 
 for i = 1:length(ims)-1
-    disp(['Registering Image',' ',num2str(i)]) % display current image
     moving_idx = idx_vec(i); % index without the fixed image
     if ~fixed_flag % if sampling consecutively
         fixed_idx = moving_idx - 1; 
@@ -62,6 +61,6 @@ for i = 1:length(ims)-1
     fname = ims(fixed_idx).name;
     fixed = imread(fname);
     movingRegistered = imregister(moving,fixed,"rigid",optimizer, metric);
-    newname = strcat(png_path,'\',newdir_name,'\',mname(1:end-4),'_',newdir_name,'.png');
+    newname = strcat(png_path,'\',newdir,'\',mname(1:end-4),'_',newdir,'.png');
     imwrite(movingRegistered,newname) % save registered moving image to new directory
 end
