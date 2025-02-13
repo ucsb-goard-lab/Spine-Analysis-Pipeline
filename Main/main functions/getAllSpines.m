@@ -1,4 +1,4 @@
-function [] = getAllSpines()
+function [] = getAllSpines(gui_flag)
 %% Get All Spines
 %-------------------------------------------------------------------------%
 %   This function uses previously written software to binarize all
@@ -14,24 +14,26 @@ function [] = getAllSpines()
 %   through all spines and approve their classification as "spine" or "no
 %   spine" to catch outlier cases.
 %
-%   A file with fields that act as the input to the spine GUI will be saved
-%   to the current directory as "spineDetectionGUI_data.mat". To run the 
-%   function without the GUI, comment out the last line.
-%
-%   Written by NSW 10/18/2023 // Last updated by NSW 07/01/2024
+%   Written by NSW 10/18/2023 // Last updated by NSW 12/27/2023
 %-------------------------------------------------------------------------%
+if nargin < 1 || isempty(gui_flag)
+    gui_flag = 0; % defaults to not run gui
+end
 
-filepath = mfilename("fullpath");
+
+filepath = mfilename('fullpath');
 addpath(genpath(filepath(1:end-12))) % add all subfunctions to path (works if function is not renamed)
 pixel_thresh = 25; % how close in pixels centroids have to be to be considered the same spine (25 ~= 1.7uM)
 spine_im_length = 80; % size of binarized single spine images in pixels
-path = pwd;
-ims = dir(path,"*.png");
+disp('Select cycle data')
+[cname,cpath] = uigetfile('*.mat');
+cycle_data = importdata(strcat(cpath,cname));
+ims = dir('*.png');
 ims = natsortfiles({ims.name}); % alphanumerically sort by filename
 % If loading in previous data, comment out this section
-bname = "binarized";
+bname = 'binarized';
 mkdir(bname)
-dname = "data";
+dname = 'data';
 mkdir(dname)
 base = pwd;
 all_spine_data = cell(length(ims),1); % make array to store all spine data
@@ -40,10 +42,11 @@ avg_ims = zeros(size(first_im,1),size(first_im,2),length(ims)); % initiate 3d ar
 binary_ims = zeros(size(first_im,1),size(first_im,2),length(ims));
 superResolution_ims = zeros(size(first_im,1),size(first_im,2),length(ims));
 for ii = 1:length(ims)
+    % disp(['Current stage:', ' ', cycle_data{ii}])
     imname = ims{ii};
     curr_im = imread(imname);
-    binary_dir = strcat(base,"\",bname);
-    datadir = strcat(base,"\",dname);
+    binary_dir = strcat(base,'\',bname);
+    datadir = strcat(base,'\',dname);
     [spine_data,binary,superResolution] = analyzeDendrite_NSWEdit(imname,curr_im,1, binary_dir,[],...
         length(curr_im), 0, 0, 0, 0, datadir); % binarize image and collect spine data
     all_spine_data{ii} = spine_data;
@@ -194,11 +197,11 @@ for cc = 1:length(ims)
         close_enough = rangesearch(curr_center,curr_centroids,pixel_thresh);
         close_enough_idx = find(~cellfun(@isempty,close_enough));
         if ~isempty(close_enough_idx)
-            classifications{cc,c} = "Spine";
+            classifications{cc,c} = 'Spine';
             curr_sd = all_spine_data{cc}(close_enough_idx,:);
             select_spine_data{cc,c} = curr_sd(:,1:13); % cut off full images for storage
         else
-            classifications{cc,c} = "No Spine";
+            classifications{cc,c} = 'No Spine';
         end
     end
 end
@@ -207,7 +210,7 @@ end
 avg_registered = zeros(size(avg_spines));
 binary_registered = zeros(size(binary_spines));
 superResolution_registered = zeros(size(superResolution_spines));
-disp("Performing local registration...")
+disp('Performing local registration...')
 for rr = 1:length(new_centers) % for each spine
     avg_timeseries = avg_spines(:,:,:,rr);
     binary_timeseries = binary_spines(:,:,:,rr);
@@ -264,7 +267,9 @@ test_data.cycle_data = cycle_data;
 test_data.classifications = classifications;
 test_data.new_centers = new_centers;
 test_data.select_spine_data = select_spine_data;
-save("spineDetectionGUI_data.mat","test_data")
+save('test_data.mat','test_data')
 
 %% Call GUI and edit spines that did not appear in the binary projection
-spineDetectionGUI_v2(test_data.avg_cropped,test_data.binary_cropped,test_data.superResolution_cropped,test_data.cycle_data,test_data.classifications,test_data.new_centers,test_data.select_spine_data);
+if gui_flag
+    spineDetectionGUI_v2(test_data.avg_cropped,test_data.binary_cropped,test_data.superResolution_cropped,test_data.cycle_data,test_data.classifications,test_data.new_centers,test_data.select_spine_data);
+end
