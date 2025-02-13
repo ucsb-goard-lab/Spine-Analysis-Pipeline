@@ -1,4 +1,4 @@
-function [normalized_ims] = D_normalizeLuminanceDendrites(pathname,imsize)
+function [] = D_normalizeLuminanceDendrites(pathname,imsize)
 %% Normalize luminance between dendrite images
 %-------------------------------------------------------------------------%
 %   Run from directory containing dendrite png's. This will create a new
