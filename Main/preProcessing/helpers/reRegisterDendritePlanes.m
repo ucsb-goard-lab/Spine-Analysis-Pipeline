@@ -34,7 +34,7 @@ fixed = imagestack(:,:,fixed_idx); % defaults to registering to 1st plane
 newname = strcat(dname.name(1:end-9),'.png');
 disp(['Registering image',' ',newname,'...'])
 registered_ims = zeros(size(imagestack));
-registered_ims(:,:,1) = fixed; % set first registered image as fixed image
+registered_ims(:,:,fixed_idx) = fixed; % set fixed image
 idx_vec = 1:length(planefolders); % get indices of non-fixed images
 idx_vec(fixed_idx) = [];
 for r = 1:length(idx_vec)
