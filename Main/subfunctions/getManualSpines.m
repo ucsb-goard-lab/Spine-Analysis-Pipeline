@@ -36,6 +36,13 @@ for ii = 1:size(spine_data,1) % for all spines
             class = list{idx};
 
             props = regionprops(spine_fill,'Centroid','BoundingBox','Perimeter','Eccentricity','Circularity');
+            if isempty(props) % if the user accidentally selected a region that's not on the dendrite of interest
+                w = warndlg('Selected region was not on dendrite of interest. Please try again.','Warning');
+                uiwait(w) % pause until user presses 'OK'
+                imshow(spines_found)
+                title('All identified spines')
+                continue; % go back to original
+            end
             BB = props.BoundingBox;
 
             % save attributes in data structure
