@@ -8,7 +8,7 @@ function [registered_ims] = reRegisterDendritePlanes(fixed_idx)
 %   Written by NSW 02/06/25
 %-------------------------------------------------------------------------%
 if nargin < 1 || isempty(fixed_idx)
-    fixed_idx = 2; % default registers to second plane
+    fixed_idx = 3; % default registers to second plane
 end
 
 %% Set parameters

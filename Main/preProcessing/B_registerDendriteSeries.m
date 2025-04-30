@@ -32,7 +32,7 @@ optimizer = registration.optimizer.RegularStepGradientDescent;
 metric = registration.metric.MeanSquares;
 
 ims = dir(fullfile(png_path,'*.png'));
-ims = natsortfiles(ims);
+ims = natsortfiles(ims);0
 imagestack = zeros(imsize, imsize, length(ims)); % set up array to hold dendrite images
 for pp = 1:length(ims)
     imagestack(:,:,pp) = imread(ims(pp).name);

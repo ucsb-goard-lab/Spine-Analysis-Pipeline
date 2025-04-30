@@ -7,7 +7,7 @@ function [] = batchSortImages()
 %   Written by NSW 09/19/2024, Edited by NSW 09/27/2024
 %-------------------------------------------------------------------------%
 % get recording folders
-mainfolders = dir('*NSW*');
+mainfolders = dir('*LNW*');
 
 for ii = 1:length(mainfolders)
     curr_fol = mainfolders(ii).name;
@@ -21,14 +21,19 @@ for ii = 1:length(mainfolders)
         cd(curr_sub)
 
         ims = dir('*.tif');
+        
+        % extract cycle number
+        if
+ss
+        end
+
 
         if length(ims) < 1010
             cd ..
             continue; % skip if there's only one plane
         end
-
+    
         num_planes = round(length(ims)/1000);
-
         disp('Sorting images by plane...')
         % Create folders for each plane
         for i = 1:num_planes

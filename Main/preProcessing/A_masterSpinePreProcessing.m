@@ -10,7 +10,7 @@
 %   Should be run from the mouse folder containing a series of recordings,
 %   i.e. 'NSW110'. 
 %
-%   Written by NSW 09/27/2024
+%   Written by NSW 09/27/2024 Edited by LNW 03/19/25
 %-------------------------------------------------------------------------%
 
 % Sort images with multiple planes into their respective planes
