@@ -20,7 +20,7 @@ optimizer = registration.optimizer.RegularStepGradientDescent;
 metric = registration.metric.MeanSquares;
 
 % get recording folders
-mainfolders = dir('*NSW*');
+mainfolders = dir('*LNW*');
 
 for f = 1:length(mainfolders)
     curr_fol = [mainfolders(f).folder, '\', mainfolders(f).name];

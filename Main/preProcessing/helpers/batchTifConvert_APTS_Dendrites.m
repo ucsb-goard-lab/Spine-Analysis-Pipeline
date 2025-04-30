@@ -9,7 +9,7 @@ if nargin < 2
     preprocess = 1; % run batchProcessTimeSeries.m
 end
 % get recording folders
-mainfolders = dir('*NSW*');
+mainfolders = dir('*LNW*');
 
 for f = 1:length(mainfolders)
     curr_fol = [mainfolders(f).folder, '\', mainfolders(f).name];
