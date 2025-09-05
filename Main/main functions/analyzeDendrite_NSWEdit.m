@@ -16,7 +16,7 @@ if nargin < 3 || isempty(save_image_flag)
     save_image_flag = 1; %1 = save images + data, 0 = do not save images
 end
 if nargin < 4 || isempty(binarized_save_location)
-    binarized_save_location = 'E:\GFP Spine Imaging\Chronic imaging\E_TRIAL_1\Binarized Images'; % set manually
+    binarized_save_location = file_path;
 end
 if nargin < 5 || isempty (micron)
     micron = 51.8; % for 16X on the two-photon
@@ -90,24 +90,24 @@ for dendriteIdx = 1:dendriteList.NumObjects
     sum_head_width = 0;
     sum_spine_length = 0;
 
-    %% 6 Spine identification & Classification 
+    %% 6 Spine identification & Classification
     % identify and classify each spine based on standard criteria (morphological approach)
     % also segments out single spine images (option to save later on)
-    for i = 1:(length(denInfo.x_end)) 
-           spineClass = getSpineMorphologyClass(i,denInfo,BW);
-           morphologicalClassification(spineClass);
-           midpoint_base = spineClass.midpoint_base;
-           spine_fill = spineClass.spine_fill;
-           im = spineClass.im;
-           class = spineClass.spine_label;
-           
-%         figure, imshowpair(spine_fill,BW)
-%         title(['Current spine:',' ',class]) % uncomment to display each spine
+    for i = 1:(length(denInfo.x_end))
+        spineClass = getSpineMorphologyClass(i,denInfo,BW);
+        morphologicalClassification(spineClass);
+        midpoint_base = spineClass.midpoint_base;
+        spine_fill = spineClass.spine_fill;
+        im = spineClass.im;
+        class = spineClass.spine_label;
+
+        %         figure, imshowpair(spine_fill,BW)
+        %         title(['Current spine:',' ',class]) % uncomment to display each spine
 
         if sum(spine_fill(:)) < 30 || sum(spine_fill(:)) > 650
             %skip if not a spine
             disp(['ROI #',num2str(i),' ','is not a spine'])
-%             disp(sum(spine_fill(:)))
+            %             disp(sum(spine_fill(:)))
             continue
         end
         num_spines = num_spines + 1;
@@ -166,8 +166,15 @@ for dendriteIdx = 1:dendriteList.NumObjects
                 min_max_c = 760;
             end
 
-            spine_data{count_spines_found,17} = mean_image(min_r:min_max_r,min_c:min_max_c);
-            spine_data{count_spines_found,18} = dendrite(min_r:min_max_r,min_c:min_max_c);
+            mean_spine_im = mean_image(min_r:min_max_r,min_c:min_max_c); % cut out spine image
+            bin_spine_im = dendrite(min_r:min_max_r,min_c:min_max_c); % cut out binarized spine
+            mean_spine_masked = mean_spine_im(logical(bin_spine_im)); % use binarized spine to cut out just the spine in the average projection
+            integrated_fluor = sum(mean_spine_masked); % calculate integrated fluorescence of the spine
+            
+            % Save remaining parameters (spines images and integrated fluorescence)
+            spine_data{count_spines_found,17} = mean_spine_im;
+            spine_data{count_spines_found,18} = bin_spine_im;
+            spine_data{count_spines_found,19} = integrated_fluor;
 
             color_idx = find(contains(class_bank,class));
             color = color_bank(color_idx); % color code by spine type
@@ -192,17 +199,18 @@ for dendriteIdx = 1:dendriteList.NumObjects
             ' yellow = mushroom, green = filopodia']);
     end
 
-    spine_tags = spine_data(:,1); 
+    spine_tags = spine_data(:,1);
     spine_length = length(spine_tags(~cellfun('isempty',spine_tags)));
     spine_data = spine_data(1:spine_length,:); % get rid of extra cells
     spine_table = cell2table(spine_data,"VariableNames",...
-    ["Filename" "Spine number" "X coord spine base" "Y coord spine base"...
-    "Perimeter" "Eccentricity" "Circularity" "Spine length" "Spine neck"...
-    "Middle length" "Total spine area" "Aspect ratio" "Classification"...
-    "Spine fill" "Centroid" "Bounding box" "Spine image" "Binary spine image"]); % convert to table
+        ["Filename" "Spine number" "X coord spine base" "Y coord spine base"...
+        "Perimeter" "Eccentricity" "Circularity" "Spine length" "Spine neck"...
+        "Middle length" "Total spine area" "Aspect ratio" "Classification"...
+        "Spine fill" "Centroid" "Bounding box" "Spine image"...
+        "Binary spine image" "Integrated fluorescence"]); % convert to table
 
     if save_image_flag
-       % save spine data to current directory
+        % save spine data to current directory
         save(strcat(datadir,'\',file_name(1:end-4),'_spineData.mat'),'spine_table') % save spine data for current branch
         %saves single spine image, if unwanted comment out the next part
     end
